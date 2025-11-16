@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-import { Code, Music, Trophy, Heart, Mic } from "lucide-react";
+import { Code, Music, Trophy, Heart, Mic, Calendar, MapPin, Users } from "lucide-react";
 
 const clubs = [
   {
@@ -67,6 +67,69 @@ const clubs = [
     color: "from-orange-500 to-orange-600",
     icon: Mic,
     subClubs: []
+  }
+];
+
+const events = [
+  {
+    id: 1,
+    title: "TechFest 2024",
+    description: "Annual technology festival with hackathons, workshops, and tech talks",
+    date: "2024-02-15",
+    time: "9:00 AM",
+    location: "Main Auditorium",
+    category: "Technical",
+    attendees: 500
+  },
+  {
+    id: 2,
+    title: "Cultural Night",
+    description: "Showcase your talent in music, dance, and drama performances",
+    date: "2024-02-20",
+    time: "6:00 PM",
+    location: "Open Air Theatre",
+    category: "Cultural",
+    attendees: 800
+  },
+  {
+    id: 3,
+    title: "Startup Summit",
+    description: "Meet entrepreneurs, investors, and learn about startup ecosystem",
+    date: "2024-02-25",
+    time: "10:00 AM",
+    location: "Convention Center",
+    category: "Business",
+    attendees: 300
+  },
+  {
+    id: 4,
+    title: "Sports Week",
+    description: "Inter-department sports competitions and tournaments",
+    date: "2024-03-01",
+    time: "8:00 AM",
+    location: "Sports Complex",
+    category: "Sports",
+    attendees: 1000
+  },
+  {
+    id: 5,
+    title: "Art Exhibition",
+    description: "Display of student artwork, photography, and digital designs",
+    date: "2024-03-05",
+    time: "11:00 AM",
+    location: "Art Gallery",
+    category: "Cultural",
+    attendees: 250
+  },
+  {
+    id: 6,
+    title: "Blood Donation Camp",
+    description: "Contribute to society by donating blood and saving lives",
+    date: "2024-03-10",
+    time: "9:00 AM",
+    location: "Medical Center",
+    category: "Social",
+    attendees: 200
   }
 ];
 
@@ -128,8 +191,53 @@ export default function ClubsEventsPage() {
 
             {/* Events Tab */}
             <TabsContent value="events">
-              <div className="text-center text-muted-foreground">
-                Events tab is under construction.
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {events.map((event, index) => (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card className="hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <div className="flex items-start justify-between mb-2">
+                          <CardTitle className="text-xl">{event.title}</CardTitle>
+                          <Badge>{event.category}</Badge>
+                        </div>
+                        <CardDescription>{event.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2 mb-4">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {new Date(event.date).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric'
+                            })} at {event.time}
+                          </div>
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <MapPin className="mr-2 h-4 w-4" />
+                            {event.location}
+                          </div>
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Users className="mr-2 h-4 w-4" />
+                            {event.attendees} attendees expected
+                          </div>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button className="flex-1" onClick={() => router.push(`/events/${event.id}`)}>
+                            Register
+                          </Button>
+                          <Button variant="outline" className="flex-1" onClick={() => router.push(`/events/${event.id}`)}>
+                            Details
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
               </div>
             </TabsContent>
           </Tabs>
